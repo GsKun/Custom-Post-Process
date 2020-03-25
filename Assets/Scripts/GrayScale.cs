@@ -7,11 +7,11 @@ using System;
 public sealed class GrayScale : CustomPostProcessVolumeComponent, IPostProcessComponent
 {
     [Tooltip("Controls the intensity of the effect.")]
-    public ClampedFloatParameter intensity = new ClampedFloatParameter(0f, 0f, 1f);
+    public ClampedFloatParameter blend = new ClampedFloatParameter(0f, 0f, 1f);
 
     Material m_Material;
 
-    public bool IsActive() => m_Material != null && intensity.value > 0f;
+    public bool IsActive() => m_Material != null && blend.value > 0f;
 
     public override CustomPostProcessInjectionPoint injectionPoint => CustomPostProcessInjectionPoint.AfterPostProcess;
 
@@ -29,9 +29,9 @@ public sealed class GrayScale : CustomPostProcessVolumeComponent, IPostProcessCo
             return;
 
 
-        m_Material.SetFloat("_Intensity", intensity.value);
+        m_Material.SetFloat("_Blend", blend.value);
 
-        m_Material.SetTexture("_InputTexture", source);
+        m_Material.SetTexture("_MainTex", source);
 
         HDUtils.DrawFullScreen(cmd, m_Material, destination);
     }

@@ -49,9 +49,9 @@
 
 	// List of properties to control your post process effect
 
-	float _Intensity;
+	float _Blend;
 
-	TEXTURE2D_X(_InputTexture);
+	TEXTURE2D_X(_MainTex);
 
 	float4 CustomPostProcess(Varyings input) : SV_Target
 	{
@@ -59,9 +59,9 @@
 
 		uint2 positionSS = input.texcoord * _ScreenSize.xy;
 
-		float3 outColor = LOAD_TEXTURE2D_X(_InputTexture, positionSS).xyz;
+		float3 outColor = LOAD_TEXTURE2D_X(_MainTex, positionSS).xyz;
 
-		return float4(lerp(outColor, Luminance(outColor).xxx, _Intensity), 1);
+		return float4(lerp(outColor, Luminance(outColor).xxx, _Blend), 1);
 	}
 
 		ENDHLSL

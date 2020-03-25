@@ -32,10 +32,22 @@ public class AffectGrayScale : MonoBehaviour
 
     void Update()
     {
-        if(isDead)
-            gs.intensity.value = Mathf.Lerp(gs.intensity.value, 1, Time.deltaTime * speed);
-        else
-            gs.intensity.value = Mathf.Lerp(gs.intensity.value, 0, Time.deltaTime * speed);
+        if (gs == null) return;
+
+        if(isDead && gs.blend.value != 1)
+        {
+            if (gs.blend.value >= 0.99f)
+                gs.blend.value = 1f;
+            else
+                gs.blend.value = Mathf.Lerp(gs.blend.value, 1, Time.deltaTime * speed);
+        }
+        else if(!isDead && gs.blend.value !=0)
+        {
+            if (gs.blend.value <= 0.01)
+                gs.blend.value = 0f;
+            else
+                gs.blend.value = Mathf.Lerp(gs.blend.value, 0, Time.deltaTime * speed);
+        }
     }
 
     private void OnDestroy()
